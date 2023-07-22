@@ -15,12 +15,12 @@ namespace Input.InputSystems.ButtonBased
 
         public override void Deactivate()
         {
-            _button.enabled = false;
+            _button.interactable = false;
         }
 
         public override void Activate()
         {
-            _button.enabled = true;
+            _button.interactable = true;
         }
 
         public bool GetKey(int keyID)
@@ -40,17 +40,33 @@ namespace Input.InputSystems.ButtonBased
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            _isDown = true;
+            if (_isDown)
+            {
+                _isDownLastFrame = true;
+            }
+            else
+            {
+                _isDown = true;
+                _isDownLastFrame = false;
+            }
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            _isDown = false;
+            if (!_isDown)
+            {
+                _isDownLastFrame = false;
+            }
+            else
+            {
+                _isDown = false;
+                _isDownLastFrame = true;
+            }
         }
 
-        private void LateUpdate()
-        {
-            _isDownLastFrame = _isDown;
-        }
+        // private void LateUpdate()
+        // {
+        //     _isDownLastFrame = _isDown;
+        // }
     }
 }

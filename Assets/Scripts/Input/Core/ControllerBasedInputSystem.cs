@@ -29,7 +29,6 @@ namespace Input.Core
         public override bool GetKeyDown(int keyId, int playerId)
         {
             if (!ValidatePlayerController(playerId)) return false;
-            
             return (_playerControllers[playerId] is IKeyDownGetter) && ((IKeyDownGetter)_playerControllers[playerId]).GetKeyDown(keyId);
         }
         
@@ -48,7 +47,7 @@ namespace Input.Core
         
         private protected override void Initialize()
         {
-            if (_countOfPlayers < _playerControllers.Count)
+            if (_countOfPlayers > _playerControllers.Count)
                 throw new Exception($"Invalid number of players. Your count of players = {_countOfPlayers}, max = {_playerControllers.Count}");
 
             for (int i = 0; i < _playerControllers.Count; i++)

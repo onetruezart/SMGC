@@ -12,7 +12,6 @@ Material:
   m_ValidKeywords:
   - _ENVIRONMENTREFLECTIONS_OFF
   - _FOAM
-  - _RECEIVE_SHADOWS_OFF
   - _SPECULARHIGHLIGHTS_OFF
   m_InvalidKeywords:
   - ADVANCED_LIGHTING

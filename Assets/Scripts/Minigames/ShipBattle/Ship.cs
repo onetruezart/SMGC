@@ -1,6 +1,7 @@
 using System;
 using Input.Core;
 using UnityEngine;
+using Utility;
 
 namespace Minigames.ShipBattle
 {
@@ -10,6 +11,10 @@ namespace Minigames.ShipBattle
       [SerializeField] private float _speed;
       [SerializeField] private float _angularSpeed;
       [SerializeField] private int _id;
+      [SerializeField] private GameObject _canonL, _canonR;
+      [SerializeField] private GameObject _bullet;
+
+      private int _shootCounter = 0;
 
       public Action<int> OnDie;
 
@@ -28,7 +33,6 @@ namespace Minigames.ShipBattle
          if (InputSystem.CurrentInputProvider.GetKeyDown(0, _id))
          {
             Shoot();
-            //Die();
             _angularSpeed = -_angularSpeed;
          }
       
@@ -44,7 +48,15 @@ namespace Minigames.ShipBattle
 
       private void Shoot()
       {
-         
+         LaunchBullet(_shootCounter % 2 == 0 ? _canonL : _canonR);
+
+         _shootCounter += 1;
+      }
+
+      private void LaunchBullet(GameObject canon)
+      {
+         var bullet = Instantiate(_bullet, canon.transform.position, Quaternion.identity);
+         bullet.transform.eulerAngles = canon.transform.eulerAngles.WithX(0);
       }
 
       private void Die()
@@ -52,6 +64,17 @@ namespace Minigames.ShipBattle
          OnDie?.Invoke(_id);
          //TODO: Animation
          Destroy(gameObject);
+      }
+      
+      private void OnCollisionEnter(Collision collision)
+      {
+         if (collision.gameObject.CompareTag("Death"))
+            Die();
+      }
+
+      public int GetPlayerId()
+      {
+         return _id;
       }
    }
 }

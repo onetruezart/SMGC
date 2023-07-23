@@ -9,6 +9,8 @@ namespace Minigames.ShipBattle
         [Tooltip("Item id = player id")]
         [SerializeField] private List<Ship> _ships;
 
+        private List<Ship> _inGameShips = new List<Ship>();
+
         private List<int> _eliminationOrder = new List<int>();
         private protected override void OnStart()
         {
@@ -16,6 +18,8 @@ namespace Minigames.ShipBattle
             {
                 _ships[i].Initialize(i);
                 _ships[i].OnDie += OnShipDie;
+                _inGameShips.Add(_ships[i]);
+                Debug.Log(i);
             }
             
             for (int i = _countOfPlayers; i < _ships.Count; )
@@ -27,7 +31,7 @@ namespace Minigames.ShipBattle
 
         private protected override void OnUpdate()
         {
-            foreach (var ship in _ships)
+            foreach (var ship in _inGameShips)
             {
                 ship.OnUpdate();
             }
@@ -35,18 +39,19 @@ namespace Minigames.ShipBattle
 
         private protected override bool IsGameEnd()
         {
-            return _ships.Count <= 1;
+            return _inGameShips.Count <= 1;
         }
 
         private void OnShipDie(int id)
         {
             _eliminationOrder.Add(id);
             _ships[id].OnDie -= OnShipDie;
-            _ships.RemoveAt(id);
+            _inGameShips.Remove(_ships[id]);
         }
 
         private protected override List<int> GetScore()
         {
+            Debug.Log(_eliminationOrder);
             return null;
         }
     }

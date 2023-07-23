@@ -10,7 +10,8 @@ namespace Input.InputSystems.ButtonBased
     {
         [SerializeField] private Button _button;
 
-        private bool _isDownLastFrame = false;
+        private bool _isDownThisFrame = false;
+        private bool _isUpThisFrame = false;
         private bool _isDown = false;
 
         public override void Deactivate()
@@ -30,43 +31,30 @@ namespace Input.InputSystems.ButtonBased
 
         public bool GetKeyDown(int keyID)
         {
-            return _isDown && !_isDownLastFrame;
+            return _isDownThisFrame;
         }
 
         public bool GetKeyUp(int keyID)
         {
-            return _isDownLastFrame && !_isDown;
+            return _isUpThisFrame;
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (_isDown)
-            {
-                _isDownLastFrame = true;
-            }
-            else
-            {
-                _isDown = true;
-                _isDownLastFrame = false;
-            }
+            _isDown = true;
+            _isDownThisFrame = true;
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            if (!_isDown)
-            {
-                _isDownLastFrame = false;
-            }
-            else
-            {
-                _isDown = false;
-                _isDownLastFrame = true;
-            }
+            _isDown = false;
+            _isUpThisFrame = true;
         }
 
-        // private void LateUpdate()
-        // {
-        //     _isDownLastFrame = _isDown;
-        // }
+        private void LateUpdate()
+        {
+            _isDownThisFrame = false;
+            _isUpThisFrame = false;
+        }
     }
 }

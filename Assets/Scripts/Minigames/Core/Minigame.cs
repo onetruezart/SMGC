@@ -9,7 +9,7 @@ namespace Minigames.Core
     public abstract class Minigame : MonoBehaviour
     {
         [SerializeField] private protected int _countOfPlayers;
-        [SerializeField] private InputSystem _inputSystem;
+        [SerializeField] private protected InputSystem _inputSystem;
         
         private void Start()
         {

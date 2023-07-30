@@ -45,6 +45,7 @@ namespace Minigames.ShipBattle
         private void OnShipDie(int id)
         {
             _eliminationOrder.Add(id);
+            _inputSystem.DeactivatePlayer(id);
             _ships[id].OnDie -= OnShipDie;
             _inGameShips.Remove(_ships[id]);
         }

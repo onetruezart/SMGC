@@ -44,5 +44,6 @@ namespace Input.Core
         {
             return 0f;
         }
+        
     }
 }

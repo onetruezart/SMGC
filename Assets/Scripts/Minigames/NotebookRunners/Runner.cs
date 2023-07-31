@@ -7,16 +7,16 @@ public class Runner : MonoBehaviour
     [SerializeField] private float _speed = 16f;
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private int _id;
-    private SpriteRenderer _spriteRenderer;
     private bool _isUpsideDown = false;
     private Rigidbody2D _rigidbody;
+    private Transform _transform;
     public Action<int> OnDie;
     
     public void Initialize(int playerId)
     {
         _id = playerId;
         _rigidbody = GetComponent<Rigidbody2D>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _transform = GetComponent<Transform>();
     }
 
     public void OnUpdate()
@@ -29,7 +29,7 @@ public class Runner : MonoBehaviour
         if (InputSystem.CurrentInputProvider.GetKeyDown(0, _id))
         {
             gravity = -gravity;
-            _spriteRenderer.flipY = !_spriteRenderer.flipY;
+            transform.Rotate(new Vector3(0, 0, 180f));
         }
     }
 

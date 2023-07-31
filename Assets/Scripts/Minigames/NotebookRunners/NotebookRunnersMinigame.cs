@@ -63,11 +63,18 @@ namespace Minigames.NotebookRunners
             _runners[id].OnDie -= OnRunnerDie;
             _inGameRunners.Remove(_runners[id]);
         }
-
-        private protected override List<int> GetScore()
+ 
+        private protected override int[] GetScore()
         {
-            Debug.Log(_eliminationOrder);
-            return null;
+            _eliminationOrder.Add(_leadingRunner.GetPlayerId());
+            int[] scores = new int[_runners.Count];
+            
+            for (int i = 0; i < _eliminationOrder.Count; i++)
+            {
+                scores[_eliminationOrder[i]] = i;
+            }
+            
+            return scores;
         }
     }
 }

@@ -5,8 +5,9 @@ using Input.Core;
 public class Runner : MonoBehaviour
 {
     [SerializeField] private float _speed = 16f;
-    [SerializeField] private float gravity = 9.81f;
+    [SerializeField] private float gravity = -9.81f;
     [SerializeField] private int _id;
+    private SpriteRenderer _spriteRenderer;
     private bool _isUpsideDown = false;
     private Rigidbody2D _rigidbody;
     public Action<int> OnDie;
@@ -15,6 +16,7 @@ public class Runner : MonoBehaviour
     {
         _id = playerId;
         _rigidbody = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void OnUpdate()
@@ -27,6 +29,7 @@ public class Runner : MonoBehaviour
         if (InputSystem.CurrentInputProvider.GetKeyDown(0, _id))
         {
             gravity = -gravity;
+            _spriteRenderer.flipY = !_spriteRenderer.flipY;
         }
     }
 
@@ -39,13 +42,19 @@ public class Runner : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Death"))
         {
-            OnDie?.Invoke(_id);
-            Destroy(gameObject);
+            Die();
         }
     }
 
     private void Die()
     {
-        
+        OnDie?.Invoke(_id);
+        Debug.Log(_id);
+        Destroy(gameObject);
+    }
+    
+    public int GetPlayerId()
+    {
+        return _id;
     }
 }

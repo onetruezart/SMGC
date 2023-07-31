@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Minigames.Core;
 using UnityEngine;
@@ -50,10 +51,15 @@ namespace Minigames.ShipBattle
             _inGameShips.Remove(_ships[id]);
         }
 
-        private protected override List<int> GetScore()
+        private protected override int[] GetScore()
         {
             Debug.Log(_eliminationOrder);
-            return null;
+            int[] scores = new int[_ships.Count];
+            for (int i = 0; i < _eliminationOrder.Count; i++)
+            {
+                scores[_eliminationOrder[i]] = i;
+            }
+            return scores;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Minigames.Core
             PlayMinigame(_countOfPlayers);
         }
 
-        public async UniTask<List<int>> PlayMinigame(int players)
+        public async UniTask<int[]> PlayMinigame(int players)
         {
             _inputSystem.Initialize(players);
             OnStart();
@@ -34,6 +34,6 @@ namespace Minigames.Core
         private protected abstract void OnStart();
         private protected abstract void OnUpdate();
         private protected abstract bool IsGameEnd();
-        private protected abstract List<int> GetScore();
+        private protected abstract int[] GetScore();
     }
 }

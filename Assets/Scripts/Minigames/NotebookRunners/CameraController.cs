@@ -4,16 +4,16 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private float _followSpeed = 2f;
-    [SerializeField] private float _defaultSpeed = 3f;
-    [SerializeField] private float _xOffset = -5f;
+    [SerializeField] private float _defaultSpeed = 7f;
+    [SerializeField] private float _xOffset = -3f;
         
     private Transform _target;
     
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         _target = NotebookRunnersMinigame._leadingRunner.transform;
 
-        if (transform.position.x+_xOffset > _target.position.x)
+        if (transform.position.x + _xOffset > _target.position.x)
         {
             transform.position += Vector3.right * (_defaultSpeed*Time.deltaTime);
         }

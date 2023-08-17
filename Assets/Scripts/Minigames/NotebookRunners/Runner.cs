@@ -4,19 +4,18 @@ using Input.Core;
 
 public class Runner : MonoBehaviour
 {
-    [SerializeField] private float _speed = 16f;
-    [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float _speed = 10f;
+    [SerializeField] private float _gravity = -9.81f;
     [SerializeField] private int _id;
-    private bool _isUpsideDown = false;
+    private bool _isJumpAllowed = false;
     private Rigidbody2D _rigidbody;
-    private Transform _transform;
+    
     public Action<int> OnDie;
     
     public void Initialize(int playerId)
     {
         _id = playerId;
         _rigidbody = GetComponent<Rigidbody2D>();
-        _transform = GetComponent<Transform>();
     }
 
     public void OnUpdate()
@@ -24,18 +23,20 @@ public class Runner : MonoBehaviour
         
     }
     
-    void Update()
+    public void Update()
     {
-        if (InputSystem.CurrentInputProvider.GetKeyDown(0, _id))
+        if (InputSystem.CurrentInputProvider.GetKeyDown(0, _id) && _isJumpAllowed)
         {
-            gravity = -gravity;
+            _gravity = -_gravity;
+            _isJumpAllowed = false;
+            
             transform.Rotate(new Vector3(0, 0, 180f));
         }
     }
 
-    void FixedUpdate()
+    public void FixedUpdate()
     {
-        _rigidbody.velocity = new Vector2(_speed, gravity) * 0.5f;
+        _rigidbody.velocity = new Vector2(_speed, _gravity*1.1f);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -44,12 +45,13 @@ public class Runner : MonoBehaviour
         {
             Die();
         }
+        
+        _isJumpAllowed = true;
     }
 
     private void Die()
     {
         OnDie?.Invoke(_id);
-        Debug.Log(_id);
         Destroy(gameObject);
     }
     

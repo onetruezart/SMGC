@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class BackgroundMover : MonoBehaviour
 {
-    [SerializeField] private float scrollSpeed = 0.5f;
+    [SerializeField] private float scrollSpeed = 1.5f;
     private float offset;
     private Material _material;
-    void Start()
+    private void Start()
     {
         _material = GetComponent<Renderer>().material;
     }
 
-    void Update()
+    private void Update()
     {
         offset += scrollSpeed * Time.deltaTime / 10f;
         _material.SetTextureOffset("_MainTex", new Vector2(offset, 0));

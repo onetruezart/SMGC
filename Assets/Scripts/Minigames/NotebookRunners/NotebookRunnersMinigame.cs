@@ -69,6 +69,7 @@ namespace Minigames.NotebookRunners
             _eliminationOrder.Add(_leadingRunner.GetPlayerId());
             int[] scores = new int[_runners.Count];
             
+            //scores[0] = 0 id player score, score[1] = 1 id player score etc.
             for (int i = 0; i < _eliminationOrder.Count; i++)
             {
                 scores[_eliminationOrder[i]] = i;

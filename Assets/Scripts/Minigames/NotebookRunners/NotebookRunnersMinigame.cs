@@ -11,7 +11,8 @@ namespace Minigames.NotebookRunners
         private List<Runner> _inGameRunners = new List<Runner>();
 
         private int[] _eliminationOrder;
-        private int _endedRunnersCount;
+        private int _eliminatedRunnersCount;
+        private int _finishedRunnersCount;
         public static Runner LeadingRunner { get; private set; } 
         
         private protected override void OnStart()
@@ -30,7 +31,7 @@ namespace Minigames.NotebookRunners
                 _runners.RemoveAt(i);
             }
 
-            _eliminationOrder = new int[_inGameRunners.Count];
+            _eliminationOrder = new int[_runners.Count];
             LeadingRunner = _runners[0];
         }
 
@@ -60,8 +61,8 @@ namespace Minigames.NotebookRunners
 
         private void OnRunnerDie(int id)
         {
-            _eliminationOrder[_endedRunnersCount] = id;
-            _endedRunnersCount++;
+            _eliminationOrder[_eliminatedRunnersCount] = id;
+            _eliminatedRunnersCount++;
             _inputSystem.DeactivatePlayer(id);
             _runners[id].OnDie -= OnRunnerDie;
             _inGameRunners.Remove(_runners[id]);
@@ -69,8 +70,8 @@ namespace Minigames.NotebookRunners
         
         private void OnRunnerFinish(int id)
         {
-            _eliminationOrder[^(_endedRunnersCount+1)] = id;
-            _endedRunnersCount++;
+            _eliminationOrder[^(_finishedRunnersCount+1)] = id;
+            _finishedRunnersCount++;
             _inputSystem.DeactivatePlayer(id);
             _runners[id].OnFinish -= OnRunnerFinish;
             _inGameRunners.Remove(_runners[id]);
@@ -78,8 +79,6 @@ namespace Minigames.NotebookRunners
         
         private protected override int[] GetScore()
         {
-            _eliminationOrder[^1] = LeadingRunner.GetPlayerId();
-
             int[] scores = new int[_runners.Count];
             
             //scores[0] - 0 id player score, score[1] - 1 id player score etc.
@@ -87,7 +86,10 @@ namespace Minigames.NotebookRunners
             {
                 scores[_eliminationOrder[i]] = i+(4-_runners.Count);
             }
-            
+
+            scores[_inGameRunners[0].GetPlayerId()] = 4 - _runners.Count;
+                
+            print($"{scores[0]}, {scores[1]}");
             return scores;
         }
     }

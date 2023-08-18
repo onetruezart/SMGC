@@ -1,20 +1,23 @@
 using System;
 using UnityEngine;
 
-public class Eraser : MonoBehaviour
+namespace Minigames.NotebookRunners
 {
-    [SerializeField] private float _movementRangeMultiplier = 5f;
-    [SerializeField] private float _speed = 2f;
-    [SerializeField] private float _yOffset = 3f;
-
-    private void FixedUpdate()
+    public class Eraser : MonoBehaviour
     {
-        transform.position = new Vector3(transform.position.x, (float)Math.Sin(Time.time*_speed)*_movementRangeMultiplier + _yOffset, transform.position.z);
-    }
+        [SerializeField] private float _movementRangeMultiplier;
+        [SerializeField] private float _speed;
+        [SerializeField] private float _yOffset;
 
-    // private void OnCollisionEnter2D(Collision2D other)
-    // {
-    //     if (other.gameObject.CompareTag("World"))
-    //         Destroy(other.gameObject);
-    // }
+        private void FixedUpdate()
+        {
+            transform.position = new Vector3(transform.position.x, (float)Math.Sin(Time.time*_speed)*_movementRangeMultiplier + _yOffset, transform.position.z);
+        }
+
+        // private void OnCollisionEnter2D(Collision2D other)
+        // {
+        //     if (other.gameObject.CompareTag("World"))
+        //         Destroy(other.gameObject);
+        // }
+    }
 }

@@ -1,20 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class BackgroundMover : MonoBehaviour
+namespace Minigames.NotebookRunners
 {
-    [SerializeField] private float scrollSpeed = 1.5f;
-    private float offset;
-    private Material _material;
-    private void Start()
-    {
-        _material = GetComponent<Renderer>().material;
-    }
+    public class BackgroundMover : MonoBehaviour
+    { 
+        [SerializeField] private float _scrollSpeed;
+        private float _offset;
+        private Material _material;
+        private void Start()
+        {
+            _material = GetComponent<Renderer>().material;
+        }
 
-    private void Update()
-    {
-        offset += scrollSpeed * Time.deltaTime / 10f;
-        _material.SetTextureOffset("_MainTex", new Vector2(offset, 0));
+        private void Update()
+        {
+            _offset += _scrollSpeed * Time.deltaTime / 10f;
+            _material.SetTextureOffset("_MainTex", new Vector2(_offset, 0));
+        }
     }
 }

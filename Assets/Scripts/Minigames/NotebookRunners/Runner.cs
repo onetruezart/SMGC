@@ -39,7 +39,7 @@ namespace Minigames.NotebookRunners
 
         public void FixedUpdate()
         {
-            _rigidbody.velocity = new Vector2(_speed, _gravity*1.1f);
+            _rigidbody.velocity = new Vector2(_speed, _gravity*1.2f);
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -58,7 +58,6 @@ namespace Minigames.NotebookRunners
 
         private void Finish()
         {
-            print(_id);
             _rigidbody.constraints = RigidbodyConstraints2D.FreezePosition;
             OnFinish?.Invoke(_id);
         }

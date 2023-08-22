@@ -88,8 +88,7 @@ namespace Minigames.NotebookRunners
             }
 
             scores[_inGameRunners[0].GetPlayerId()] = 4 - _runners.Count;
-                
-            print($"{scores[0]}, {scores[1]}");
+            
             return scores;
         }
     }
